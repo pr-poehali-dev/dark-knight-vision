@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,34 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [selectedQuote, setSelectedQuote] = useState(0);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio();
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleSound = () => {
+    if (!audioRef.current) return;
+    
+    if (isSoundEnabled) {
+      audioRef.current.pause();
+      setIsSoundEnabled(false);
+    } else {
+      audioRef.current.src = 'https://cdn.pixabay.com/audio/2022/05/13/audio_2fe6767e15.mp3';
+      audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+      setIsSoundEnabled(true);
+    }
+  };
 
   const quotes = [
     {
@@ -127,13 +155,21 @@ const Index = () => {
           <h1 className="text-2xl font-oswald text-primary text-glow-red animate-flicker">
             THE BATMAN
           </h1>
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             <a href="#hero" className="text-muted-foreground hover:text-primary transition-colors">Главная</a>
             <a href="#origin" className="text-muted-foreground hover:text-primary transition-colors">История</a>
             <a href="#gallery" className="text-muted-foreground hover:text-primary transition-colors">Галерея</a>
             <a href="#enemies" className="text-muted-foreground hover:text-primary transition-colors">Враги</a>
             <a href="#quotes" className="text-muted-foreground hover:text-primary transition-colors">Цитаты</a>
             <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Контакт</a>
+            <Button
+              onClick={toggleSound}
+              size="sm"
+              variant="ghost"
+              className="neon-border bg-primary/10 hover:bg-primary/20 text-primary ml-4"
+            >
+              <Icon name={isSoundEnabled ? "Volume2" : "VolumeX"} size={20} />
+            </Button>
           </div>
         </div>
       </nav>
