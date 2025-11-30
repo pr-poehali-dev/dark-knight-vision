@@ -88,12 +88,36 @@ const Index = () => {
   ];
 
   const gallery = [
-    { title: "Темный рыцарь", description: "Силуэт мстителя в ночном Готэме" },
-    { title: "Бэтсигнал", description: "Призыв в ночном небе" },
-    { title: "Погоня", description: "Бэтмобиль на улицах города" },
-    { title: "Готэм", description: "Город, утопающий в коррупции" },
-    { title: "Маска", description: "Лицо возмездия" },
-    { title: "Логово", description: "База операций под особняком Уэйнов" }
+    { 
+      title: "Темный рыцарь", 
+      description: "Силуэт мстителя в ночном Готэме",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/6e670330-c2fa-4403-a164-12d18fe698ff.jpg"
+    },
+    { 
+      title: "Бэтсигнал", 
+      description: "Призыв в ночном небе",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/ee89d165-b267-453a-9209-5b2c6f26e1c1.jpg"
+    },
+    { 
+      title: "Погоня", 
+      description: "Бэтмобиль на улицах города",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/f51721cd-d21a-4ee1-8865-d751a083ba85.jpg"
+    },
+    { 
+      title: "Готэм", 
+      description: "Город, утопающий в коррупции",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/c7606147-b0fa-43d1-adb0-1d796be23881.jpg"
+    },
+    { 
+      title: "Маска", 
+      description: "Лицо возмездия",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/d60f633e-9260-4eb8-85f9-0067ccfd66f7.jpg"
+    },
+    { 
+      title: "Логово", 
+      description: "База операций под особняком Уэйнов",
+      image: "https://cdn.poehali.dev/projects/202ccde9-d98d-4111-aeb1-2a9bc42395c7/files/fbb9848a-5679-4c4a-a265-48943f20035b.jpg"
+    }
   ];
 
   return (
@@ -180,8 +204,12 @@ const Index = () => {
             {gallery.map((item, idx) => (
               <Card key={idx} className="group overflow-hidden neon-border bg-card/30 backdrop-blur-sm hover:bg-card/50 transition-all cursor-pointer animate-fade-in" style={{ animationDelay: `${idx * 0.1}s` }}>
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-gradient-to-br from-secondary to-background flex items-center justify-center relative overflow-hidden">
-                    <Icon name="Image" size={64} className="text-muted-foreground/30 group-hover:scale-110 transition-transform" />
+                  <div className="aspect-video bg-gradient-to-br from-secondary to-background relative overflow-hidden">
+                    <img 
+                      src={item.image} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
                     <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors"></div>
                   </div>
                   <div className="p-4">
