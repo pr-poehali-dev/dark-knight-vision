@@ -9,6 +9,7 @@ import Icon from '@/components/ui/icon';
 const Index = () => {
   const [selectedQuote, setSelectedQuote] = useState(0);
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -16,11 +17,18 @@ const Index = () => {
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
     
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -174,10 +182,22 @@ const Index = () => {
         </div>
       </nav>
 
-      <section id="hero" className="min-h-screen flex items-center justify-center relative pt-20 px-4">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background"></div>
-        <div className="container mx-auto text-center relative z-10 animate-fade-in">
-          <div className="mb-8">
+      <section id="hero" className="min-h-screen flex items-center justify-center relative pt-20 px-4 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background"
+          style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+        ></div>
+        <div 
+          className="container mx-auto text-center relative z-10 animate-fade-in"
+          style={{ 
+            transform: `translateY(${scrollY * 0.3}px)`,
+            opacity: Math.max(0, 1 - scrollY / 500)
+          }}
+        >
+          <div 
+            className="mb-8"
+            style={{ transform: `scale(${Math.max(0.5, 1 - scrollY / 1000)})` }}
+          >
             <Icon name="Moon" size={80} className="mx-auto text-primary animate-flicker" />
           </div>
           <h1 className="text-7xl md:text-9xl font-oswald font-bold text-primary text-glow-red mb-6">
